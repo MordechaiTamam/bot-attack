@@ -1,0 +1,56 @@
+{% if attacks_updated %}
+    successfully updated attacks
+    {% for a in attacks_updated %}
+        <br/>
+        {{ a.name }}
+    {% endfor %}
+
+    <br/>
+    <br/>
+{% endif %}
+
+<form method="post" enctype='multipart/form-data'>
+    {% csrf_token %}
+    <table border="1">
+        <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Started At</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+
+
+        {% for attack in attacks %}
+            <tr>
+                <td>
+                    <input type="checkbox" name="attacks" value="{{ attack.id }}"/>
+                </td>
+
+                <td>{{ attack.name }}</td>
+                <td>{{ attack.status }}</td>
+                <td>{{ attack.started_at }}</td>
+                <td>
+                    <form method="post" enctype='multipart/form-data'>
+                        {% csrf_token %}
+                        <input type="hidden" name="attack_id" value="{{ attack.id }}"/>
+                        <button type="submit"
+                                {% if attack.status != 'running' %}disabled{% endif %}>Stop
+                        </button>
+                    </form>
+                </td>
+            </tr>
+
+        {% endfor %}
+
+        <br/>
+    </table>
+    <br/>
+    <br/>
+    <input type="submit" value="Bulk Stop Attack"/>
+</form>
+
+

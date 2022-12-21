@@ -1,0 +1,11 @@
+{% if attack %}
+    <span>New Attack created - {{ attack.name }}</span>
+    <br />
+    <a href="/attacks/create" onclick="window.reload()">Create another attack</a>
+{% else %}
+    <form method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        {{ form }}
+        <input class="" type="submit" value="Create Attack"/>
+    </form>
+{% endif %}
